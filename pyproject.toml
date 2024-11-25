@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "api-gateway"
+version = "0.1.0"
+description = "simple api gateway using fastapi framework"
+authors = ["wiratana <andikawiratana@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["standard"], version = "^0.115.5"}
+PyYAML = "^6.0.2"
+requests = "^2.32.3"
+pyjwt = "^2.10.0"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+mongoengine = "^0.29.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
