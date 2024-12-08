@@ -5,3 +5,4 @@ class User(Document):
     email = StringField(required=True)
     hashed_password = StringField(required=True)
     disabled = BooleanField(required=True)
+    role = StringField(required=True)
