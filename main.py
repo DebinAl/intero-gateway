@@ -68,14 +68,64 @@ async def catch_all(path: str, request: Request):
         },
         {
             "format":r"^participant",
-            "target":"http://localhost:6969",
+            "target":"https://intero-partisipan-production.up.railway.app",
             "process_inside": False,
             "function_executor": None,
             "specific_method_used": "",
             "need_form_data": False,
             "auth": True,
             "allowed_role": ["participant"]
-        }
+        },
+        {
+            "format":r"^api/v1/events",
+            "target":"https://ventix-event-production.up.railway.app",
+            "process_inside": False,
+            "function_executor": None,
+            "specific_method_used": "",
+            "need_form_data": False,
+            "auth": True,
+            "allowed_role": ["organizer", "owner"]
+        },
+        {
+            "format":r"^api/v1/cms/categories",
+            "target":"https://interoperabilitas-production.up.railway.app",
+            "process_inside": False,
+            "function_executor": None,
+            "specific_method_used": "",
+            "need_form_data": False,
+            "auth": True,
+            "allowed_role": ["organizer"]
+        },
+        # {
+        #     "format":r"^api/v1/cms/orders",
+        #     "target":"https://interoperabilitas-production.up.railway.app",
+        #     "process_inside": False,
+        #     "function_executor": None,
+        #     "specific_method_used": "",
+        #     "need_form_data": False,
+        #     "auth": True,
+        #     "allowed_role": ["organizer", "owner"]
+        # },
+        {
+            "format":r"^api/v1/cms/talents",
+            "target":"https://intero.nibdo.dev",
+            "process_inside": False,
+            "function_executor": None,
+            "specific_method_used": "",
+            "need_form_data": False,
+            "auth": False,
+            "allowed_role": []
+        },
+        {
+            "format":r"^api/v1/cms/payment",
+            "target":"https://api-payments-485701353107.us-central1.run.app",
+            "process_inside": False,
+            "function_executor": None,
+            "specific_method_used": "",
+            "need_form_data": False,
+            "auth": False,
+            "allowed_role": ["participant"]
+        },
     ]
 
     for registered_path in registered_paths:
@@ -115,6 +165,9 @@ async def catch_all(path: str, request: Request):
                 # Proxy logic
                 target_url = f"{registered_path['target']}/{path}".rstrip("/")
                 headers = {key: value for key, value in request.headers.items() if key.lower() != 'host'}
+
+                if registered_path["auth"]:
+                    headers['user'] = str(current_user.id)
 
                 if 'authorization' in request.headers:
                     headers['Authorization'] = request.headers['authorization']
