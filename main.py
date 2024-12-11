@@ -2,6 +2,8 @@ import os
 import re
 import httpx
 import html
+import json
+import bson
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
@@ -52,6 +54,16 @@ async def catch_all(path: str, request: Request):
             "process_inside": True,
             "function_executor": login_for_access_token,
             "specific_method_used": "POST",
+            "need_form_data": True,
+            "auth": False,
+            "allowed_role": []
+        },
+        {
+            "format":r"^user",
+            "target":"",
+            "process_inside": True,
+            "function_executor": get_user_by_id,
+            "specific_method_used": "GET",
             "need_form_data": True,
             "auth": False,
             "allowed_role": []
@@ -222,6 +234,18 @@ async def add_process_time_header(request: Request, call_next):
     process_time = time.perf_counter() - start_time
     response.headers["X-Process-Time"] = str(process_time)
     return response
+
+
+async def get_user_by_id(form_data):
+    user = User.objects(id=bson.ObjectId(form_data.get("id"))).first()
+
+    if not user:
+        return Response(
+                content=f"event doesnt exists",
+                status_code=404
+            )
+    
+    return json.loads(user.to_json())
 
 
 def get_user(username: str):
