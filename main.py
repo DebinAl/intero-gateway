@@ -117,6 +117,16 @@ async def catch_all(path: str, request: Request):
             "allowed_role": []
         },
         {
+            "format":r"^api/v1/cms/images",
+            "target":"https://intero.nibdo.dev",
+            "process_inside": False,
+            "function_executor": None,
+            "specific_method_used": "",
+            "need_form_data": False,
+            "auth": False,
+            "allowed_role": []
+        },
+        {
             "format":r"^api/v1/cms/payment",
             "target":"https://api-payments-485701353107.us-central1.run.app",
             "process_inside": False,
