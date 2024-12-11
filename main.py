@@ -74,7 +74,7 @@ async def catch_all(path: str, request: Request):
             "specific_method_used": "",
             "need_form_data": False,
             "auth": True,
-            "allowed_role": ["participant"]
+            "allowed_role": ["participant", "owner"]
         },
         {
             "format":r"^api/v1/events",
