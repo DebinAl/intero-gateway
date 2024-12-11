@@ -170,7 +170,7 @@ async def catch_all(path: str, request: Request):
                     headers['user'] = str(current_user.id)
 
                 if 'authorization' in request.headers:
-                    headers['Authorization'] = request.headers['authorization']
+                    headers['Authorization'] = request.headers['Authorization']
 
                 async with httpx.AsyncClient() as client:
                     try:
@@ -294,7 +294,7 @@ async def register(form_data) -> Token:
         username=html.escape(form_data.get("username")),
         email=html.escape(form_data.get("email")),
         hashed_password=get_password_hash(html.escape(form_data.get("password"))),
-        disabled=False, role="participant").save()
+        disabled=False, role=html.escape(form_data.get("role"))).save()
     user = authenticate_user(form_data.get("username"), form_data.get("password"))
     if not user:
         raise HTTPException(
