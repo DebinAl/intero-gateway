@@ -189,7 +189,7 @@ async def catch_all(path: str, request: Request):
                 headers = {key: value for key, value in request.headers.items() if key.lower() != 'host'}
 
                 if registered_path["auth"]:
-                    headers['user'] = str(current_user.id)
+                    headers['user'] = str(current_user._id)
 
                 if 'authorization' in request.headers:
                     headers['Authorization'] = request.headers['Authorization']
