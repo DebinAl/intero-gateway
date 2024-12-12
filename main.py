@@ -86,7 +86,7 @@ async def catch_all(path: str, request: Request):
             "specific_method_used": "",
             "need_form_data": False,
             "auth": True,
-            "allowed_role": ["participant", "owner"]
+            "allowed_role": ["participant", "organizer", "owner"]
         },
         {
             "format":r"^api/v1/events",
@@ -318,7 +318,7 @@ async def login_for_access_token(form_data) -> Token:
         )
     access_token_expires = timedelta(minutes=float(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")))
     access_token = create_access_token(
-        data={"sub": user.username, "role": user.role}, expires_delta=access_token_expires
+        data={"id": user.id, "sub": user.username, "role": user.role}, expires_delta=access_token_expires
     )
     return Token(access_token=access_token, token_type="bearer")
 
